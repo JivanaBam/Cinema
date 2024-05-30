@@ -78,7 +78,6 @@ const AddMovie = () => {
               }}
             >
               <Typography variant="h5">Add Movie</Typography>
-
               <FormControl fullWidth required>
                 <TextField
                   label="Movie name"
@@ -89,7 +88,6 @@ const AddMovie = () => {
                   <FormHelperText error>{formik.errors.name}</FormHelperText>
                 ) : null}
               </FormControl>
-
               <FormControl fullWidth required>
                 <TextField
                   label="Lead Actor"
@@ -102,7 +100,6 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-
               <FormControl fullWidth required>
                 <TextField
                   label="Supporting Actor"
@@ -115,7 +112,6 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-
               <FormControl fullWidth required>
                 <InputLabel>Country</InputLabel>
                 <Select label="Country" {...formik.getFieldProps("country")}>
@@ -131,29 +127,58 @@ const AddMovie = () => {
                   <FormHelperText error>{formik.errors.country}</FormHelperText>
                 ) : null}
               </FormControl>
-
+              {/* <FormControl fullWidth required>
+                <InputLabel>Genre</InputLabel>
+                <Select
+                  multiple
+                  value={formik.values.genre}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue(
+                      "genre",
+                      typeof value === "string" ? value.split(",") : value
+                    );
+                  }}
+                  renderValue={(selected) => selected.join(", ")}
+                  onBlur={formik.handleBlur("genre")}
+                  label="Genre"
+                  input={<OutlinedInput />}
+                >
+                  {movieGenreList.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      <Checkbox
+                        checked={formik.values.genre.indexOf(item) > -1}
+                      />
+                      <ListItemText primary={item} />
+                    </MenuItem>
+                  ))}
+                </Select>
+                {formik.touched.genre && formik.errors.genre ? (
+                  <FormHelperText error>{formik.errors.genre}</FormHelperText>
+                ) : null}
+              </FormControl> */}
               <FormControl fullWidth required>
                 <InputLabel>Genre</InputLabel>
                 <Select
                   multiple
-                  value={formik.values.genre} // Use Formik value
-                  onChange={formik.handleChange("genre")} // Use Formik handler
+                  value={formik.values.genre}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    formik.setFieldValue("genre", value);
+                  }}
                   renderValue={(selected) => selected.join(", ")}
                   onBlur={formik.handleBlur("genre")}
-                  label="Genre"
-                  {...formik.getFieldProps("genre")}
+                  input={<OutlinedInput label="Genre" />}
                 >
-                  {movieGenreList.map((item, index) => {
-                    return (
-                      <MenuItem key={index} value={item}>
-                        {/* {item} */}
-                        <CheckBox checked={movieGenre.indexOf(item) > -1} />
-                        <ListItemText primary={item} />
-                      </MenuItem>
-                    );
-                  })}
+                  {movieGenreList.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                      <Checkbox
+                        checked={formik.values.genre.indexOf(item) > -1}
+                      />
+                      <ListItemText primary={item} />
+                    </MenuItem>
+                  ))}
                 </Select>
-
                 {formik.touched.genre && formik.errors.genre ? (
                   <FormHelperText error>{formik.errors.genre}</FormHelperText>
                 ) : null}
@@ -170,7 +195,6 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-
               <FormControl fullWidth required>
                 <TextField
                   label="Duration"
@@ -182,7 +206,6 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-
               <FormControl fullWidth>
                 <TextField
                   required
@@ -197,7 +220,6 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-
               <Button
                 fullWidth
                 type="submit"

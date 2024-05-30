@@ -47,6 +47,7 @@ const MovieDetails = () => {
         // gap: "1rem",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         // padding: "1rem",
+        minHeight: "500px",
       }}
     >
       <Box
@@ -70,28 +71,60 @@ const MovieDetails = () => {
           justifyContent: "space-around",
           alignItems: "flex-start",
           width: "500px",
+          // padding: "1rem",
         }}
       >
-        <Typography variant="h5">{movieDetail.name}</Typography>
-        <Typography variant="h5">{movieDetail.duration}</Typography>
-        <Typography variant="h5">{movieDetail.releasedYear}</Typography>
-
-        <Chip
-          variant="outlined"
-          color="primary"
-          label={movieDetail.leadActor}
-        />
-        <Chip
-          variant="outlined"
-          color="primary"
-          label={movieDetail.supportingActor}
-        />
-
-        <Typography sx={{ textAlign: "justify" }}>
-          {movieDetail.description}
+        <Typography variant="h5" fontWeight="bold">
+          {movieDetail.name}
         </Typography>
-        <Chip variant="outlined" color="primary" label={movieDetail.country} />
-        <Chip variant="outlined" color="primary" label={movieDetail.genre} />
+        <Typography sx={{ fontSize: "18px", color: "purple" }}>
+          Duration: {movieDetail.duration}hr
+        </Typography>
+        <Typography sx={{ fontSize: "18px", color: "purple" }}>
+          Released Year: {movieDetail.releasedYear}
+        </Typography>
+
+        <Stack sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+          <Typography>Actors:</Typography>
+          <Chip
+            variant="outlined"
+            color="primary"
+            label={movieDetail.leadActor}
+          />
+          <Chip
+            variant="outlined"
+            color="primary"
+            label={movieDetail.supportingActor}
+          />
+        </Stack>
+        <Stack sx={{ textAlign: "justify" }}>
+          <Typography>More about movie:</Typography>
+          More about movie: {movieDetail.description}
+        </Stack>
+
+        <Stack direction="row">
+          <Typography>Country: </Typography>
+          <Chip
+            variant="outlined"
+            color="primary"
+            label={movieDetail.country}
+          />
+        </Stack>
+        <Stack sx={{ display: "flex", flexDirection: "row" }}>
+          <Typography>Genre: </Typography>
+
+          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            {movieDetail.genre.map((genre, index) => (
+              <Chip
+                key={index}
+                variant="outlined"
+                color="primary"
+                label={genre}
+                style={{ marginRight: "5px", marginBottom: "5px" }}
+              />
+            ))}
+          </Box>
+        </Stack>
 
         {userRole === "admin" && (
           <Stack direction="row" spacing={2} sx={{ width: "100%" }}>

@@ -4,9 +4,6 @@ import {
   movieGenreList,
 } from "../constants/general.constants";
 
-// Get the current year
-const currentYear = new Date().getFullYear();
-
 const addMovieValidationSchema = yup.object({
   name: yup
     .string()
@@ -28,22 +25,14 @@ const addMovieValidationSchema = yup.object({
     .required("Country is required.")
     .trim()
     .oneOf(movieCountryList),
-  genre: yup
-    .string()
-    .required("Genre is required.")
-    .trim()
-    .oneOf(movieGenreList),
+  genre: yup.array().required("Genre is required.").oneOf(movieGenreList),
   description: yup
     .string()
     .trim()
     .required("Description is required.")
     .min(100, "Description must be at least 100 characters.")
     .max(1000, "Description must be at max 1000 characters."),
-  releasedYear: yup
-    .date()
-    .required("Released year is required.")
-    .min(1888, "Released year must be at least 1888.")
-    .max(currentYear, `Released year cannot be later than ${currentYear}.`),
+  releasedYear: yup.date().required("Released year is required."),
   duration: yup
     .number()
     .required("Duration is required.")

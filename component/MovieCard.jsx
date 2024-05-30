@@ -6,11 +6,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import { Stack } from "@mui/material";
+import { Box, Chip, Stack } from "@mui/material";
 import { fallbackImage } from "../constants/general.constants";
+import MovieDetails from "../pages/MovieDetails";
 
 const MovieCard = (props) => {
-  // console.log(props);
+  console.log(props);
   const navigate = useNavigate();
 
   return (
@@ -31,12 +32,9 @@ const MovieCard = (props) => {
           navigate(`/movie-details/${props._id}`);
         }}
       />
+
       <CardContent>
-        <Stack
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-        >
+        <Stack justifyContent="space-between">
           <Typography
             gutterBottom
             variant="h6"
@@ -46,10 +44,25 @@ const MovieCard = (props) => {
             {props.name}
           </Typography>
 
-          <Typography variant="h6">{props.genre}</Typography>
+          <Stack sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography>Genre: </Typography>
+
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+              {props.genre &&
+                Array.isArray(props.genre) &&
+                props.genre.map((genre, index) => (
+                  <Chip
+                    key={index}
+                    variant="outlined"
+                    color="primary"
+                    label={genre}
+                    style={{ marginRight: "5px", marginBottom: "5px" }}
+                  />
+                ))}
+            </Box>
+          </Stack>
         </Stack>
-        {/* <Typography variant="h6">Released year:{props.releasedYear}</Typography> */}
-        {/* <Typography variant="h6">Duration:{props.duration}</Typography> */}
+
         <Typography variant="body2" color="text.primary">
           {props.description}...
         </Typography>

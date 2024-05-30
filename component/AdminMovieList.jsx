@@ -13,7 +13,7 @@ const AdminMovieList = () => {
     queryFn: async () => {
       return await $axios.post("/movie/list/admin", {
         page: 1,
-        limit: 3,
+        limit: 9,
       });
     },
   });
@@ -21,9 +21,9 @@ const AdminMovieList = () => {
   if (iSPending) {
     return <CircularProgress />;
   }
-  //console.log(data);
+  // console.log(data);
   const movieList = data?.data?.movieLists || [];
-  //console.log(movieList);
+  // console.log(movieList);
 
   return (
     <>
