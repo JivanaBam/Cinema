@@ -1,5 +1,6 @@
 import {
   FormControl,
+  Grid,
   InputAdornment,
   OutlinedInput,
   Stack,
@@ -11,6 +12,28 @@ import MovieFilterDialog from "../component/MovieFilterDialog";
 
 const Home = () => {
   const [searchText, setSearchText] = useState(" ");
+
+  const images = [
+    { src: "src/assets/A-quiet-place.jpg", alt: "A-quiet-place" },
+    { src: "src/assets/avatar.jpg", alt: "avatar" },
+    { src: "src/assets/interstellar.jpg", alt: "interstellar" },
+    {
+      src: "src/assets/Laapataa_Ladies_poster.jpg",
+      alt: "Laapataa_Ladies_poster",
+    },
+    { src: "src/assets/migration.jpg", alt: "migration" },
+    { src: "src/assets/moana.jpg", alt: "moana" },
+    { src: "src/assets/orphan.jpg", alt: "orphan" },
+    { src: "src/assets/shutter-island.jpg", alt: "shutter-island" },
+    { src: "src/assets/the-endgame.jpg", alt: "the-endgame" },
+  ];
+
+  //Import Grid: Added the import statement for Grid from @mui/material.
+  //Images Array: Created an array of image objects for easier mapping.
+  //Grid Container: Wrapped the images inside a Grid container with a spacing of 2
+  //for gaps between the items.
+  //Grid Items: Each image is placed inside a Grid item that takes up 4 out of 12 columns
+  //(1/3 of the width), ensuring a 3x3 layout.
 
   return (
     <Stack
@@ -61,66 +84,17 @@ const Home = () => {
           // flexWrap: "wrap",
         }}
       >
-        <img
-          src="src/assets/A-quiet-place.jpg"
-          alt="A-quiet-place"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/avatar.jpg"
-          alt="avatar"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/interstellar.jpg"
-          alt="interstellar"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/Laapataa_Ladies_poster.jpg"
-          alt="Laapataa_Ladies_poster"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/migration.jpg"
-          alt="migration"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/moana.jpg"
-          alt="moana"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/orphan.jpg"
-          alt="orphan"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/shutter-island.jpg"
-          alt="shutter-island"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/the-endgame.jpg"
-          alt="the-endgame"
-          width="250px"
-          height="250px"
-        />
-        <img
-          src="src/assets/A-quiet-place.jpg"
-          alt="A-quiet-place"
-          width="250px"
-          height="250px"
-        />
+        <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
+          {images.map((image, index) => (
+            <Grid item xs={4} key={index}>
+              <img
+                src={image.src}
+                alt={image.alt}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Stack>
     </Stack>
   );
