@@ -1,19 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import $axios from "../axios/axios.instance";
-import { Box, Button, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Pagination,
+  Stack,
+} from "@mui/material";
 import MovieCard from "./MovieCard";
 
 const AdminMovieList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const navigate = useNavigate();
 
   const { iSPending, data } = useQuery({
-    queryKey: ["get-admin-movies"],
+    queryKey: ["get-admin-movies", currentPage],
     queryFn: async () => {
       return await $axios.post("/movie/list/admin", {
-        page: 1,
-        limit: 9,
+        page: currentPage,
+        limit: 3,
       });
     },
   });
@@ -24,6 +32,7 @@ const AdminMovieList = () => {
   // console.log(data);
   const movieList = data?.data?.movieLists || [];
   // console.log(movieList);
+  const totalPage = data?.data?.totalPages;
 
   return (
     <>
@@ -53,6 +62,16 @@ const AdminMovieList = () => {
           <MovieCard key={item._id} {...item} />
         ))}
       </Box>
+      <Stack justifyContent="center" alignItems="center">
+        <Pagination
+          page={currentPage}
+          count={totalPage}
+          color="primary"
+          onChange={(_, value) => {
+            setCurrentPage(value);
+          }}
+        />
+      </Stack>
     </>
   );
 };

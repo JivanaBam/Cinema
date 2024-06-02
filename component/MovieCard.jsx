@@ -11,7 +11,7 @@ import { fallbackImage } from "../constants/general.constants";
 import MovieDetails from "../pages/MovieDetails";
 
 const MovieCard = (props) => {
-  console.log(props);
+  // console.log(props);
   const navigate = useNavigate();
 
   return (
