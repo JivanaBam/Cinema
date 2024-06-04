@@ -2,6 +2,7 @@ import {
   FormControl,
   Grid,
   InputAdornment,
+  MenuItem,
   OutlinedInput,
   Stack,
   Typography,
@@ -26,7 +27,11 @@ const Home = () => {
     { src: "src/assets/orphan.jpg", alt: "orphan" },
     { src: "src/assets/shutter-island.jpg", alt: "shutter-island" },
     { src: "src/assets/the-endgame.jpg", alt: "the-endgame" },
+    { src: "src/assets/Boksiko_ghar.jpg", alt: "Boksiko_ghar" },
+    { src: "src/assets/the lion king.jpg", alt: "the lion king" },
+    { src: "src/assets/five feet apart.jpg", alt: "five feet apart" },
   ];
+  // console.log(images);
 
   //Import Grid: Added the import statement for Grid from @mui/material.
   //Images Array: Created an array of image objects for easier mapping.
@@ -38,20 +43,15 @@ const Home = () => {
   return (
     <Stack
       sx={{
-        width: "1300px",
-        height: "550px",
+        width: "1330px",
+        height: "100%",
         backgroundSize: "cover",
         backgroundImage: `url("src/assets/Movie-background.jpg")`,
       }}
     >
-      <MovieFilterDialog />
-      <Stack
-        direction="row"
-        spacing="1rem"
-        sx={{ margin: "0.5rem 0rem 1rem 64rem" }}
-      >
-        <MovieFilterDialog />
+      <Stack direction="row" sx={{ margin: "0.5rem 0rem 1rem 64rem" }}>
         <FormControl variant="standard">
+          <MovieFilterDialog />
           <OutlinedInput
             // value={searchText}
             onChange={(event) => {
@@ -68,34 +68,32 @@ const Home = () => {
         </FormControl>
       </Stack>
 
-      <Typography variant="h3">Your streaming guide for movies</Typography>
-      <Typography variant="h5">
+      <Typography variant="h3">Your streaming guide for movies.</Typography>
+      <Typography variant="h5" color="#ffff">
         Find where to stream new, popular & upcoming entertainment with
         Digital-Cinema.
       </Typography>
 
-      <Stack
-        sx={{
-          width: "30px",
-          display: "flex",
-          flexDirection: "row",
-          gap: "0.5rem",
-          margin: "5px",
-          // flexWrap: "wrap",
-        }}
-      >
-        <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
-          {images.map((image, index) => (
-            <Grid item xs={4} key={index}>
+      <Stack display="flex" flexDirection="row" flexWrap="wrap">
+        {images.map((item, index) => {
+          return (
+            <MenuItem key={index} value={item}>
               <img
-                src={image.src}
-                alt={image.alt}
-                style={{ width: "100%", height: "auto" }}
+                src={item.src}
+                alt={item.alt}
+                style={{ width: "295px", height: "330px" }}
               />
-            </Grid>
-          ))}
-        </Grid>
+            </MenuItem>
+          );
+        })}
       </Stack>
+
+      <Typography variant="h6" color="#ffff">
+        Enjoy your movie time with Digital-Cinema...
+      </Typography>
+      <Typography variant="h6" color="#ffff">
+        Keep visiting this page...
+      </Typography>
     </Stack>
   );
 };

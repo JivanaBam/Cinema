@@ -78,7 +78,7 @@ const MovieDetails = () => {
           {movieDetail.name}
         </Typography>
         <Typography sx={{ fontSize: "18px", color: "purple" }}>
-          Duration: {movieDetail.duration}hr
+          Duration: {movieDetail.duration}
         </Typography>
         <Typography sx={{ fontSize: "18px", color: "purple" }}>
           Released Year: {movieDetail.releasedYear}
@@ -96,10 +96,6 @@ const MovieDetails = () => {
             color="primary"
             label={movieDetail.supportingActor}
           />
-        </Stack>
-        <Stack sx={{ textAlign: "justify" }}>
-          <Typography>More about movie:</Typography>
-          More about movie: {movieDetail.description}
         </Stack>
 
         <Stack direction="row">
@@ -124,6 +120,11 @@ const MovieDetails = () => {
               />
             ))}
           </Box>
+        </Stack>
+
+        <Stack sx={{ textAlign: "justify", marginRight: "1rem" }}>
+          <Typography>More about movie:</Typography>
+          {movieDetail.description}
         </Stack>
 
         {userRole === "admin" && (

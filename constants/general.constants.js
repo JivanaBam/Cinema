@@ -35,6 +35,7 @@ export const movieGenreList = [
   "spy",
   "war",
   "art",
+  "science",
 ];
 
 export const fallbackImage =

@@ -1,50 +1,126 @@
-import { CheckBox } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Checkbox,
+  CircularProgress,
   FormControl,
   FormHelperText,
   InputLabel,
+  LinearProgress,
   ListItemText,
   MenuItem,
+  OutlinedInput,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import addMovieValidationSchema from "../validationSchema/add.movie.validation.schema";
 import {
+  fallbackImage,
   movieCountryList,
   movieGenreList,
 } from "../constants/general.constants";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import $axios from "../axios/axios.instance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../src/store/slices/snackbarSlice";
+import axios from "axios";
 
 const EditMovie = () => {
-  const [movieGenre, setMovieGenre] = useState([]);
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState("");
+  // console.log(localUrl);
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
-
-  console.log(params);
-
+  // console.log(params);
   const movieId = params?.id;
+
+  // fetch movie details
+  const { isPending, data } = useQuery({
+    queryKey: ["get-movie-details"],
+    queryFn: async () => {
+      return await $axios.post(`/movie/details/${movieId}`);
+    },
+  });
+
+  // console.log(data);
+  const movieDetail = data?.data?.movieDetails;
+  // console.log(movieDetail);
+
+  // edit movie api hit
+  const { isPending: editMoviePending, mutate } = useMutation({
+    mutationKey: ["edit-movie"],
+    mutationFn: async (values) => {
+      return await $axios.put(`/edit/movie/${movieId}`, values);
+    },
+    onSuccess: (res) => {
+      navigate(`/movie-details/${movieId}`);
+      dispatch(openSuccessSnackbar(openSuccessSnackbar(res?.data?.message)));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
+    },
+  });
+
+  if (isPending || imageUploadLoading) {
+    return <CircularProgress />;
+  }
 
   return (
     <Box>
+      {editMoviePending && <LinearProgress color="primary" />}
       <Formik
+        enableReinitialize
         initialValues={{
-          name: "",
-          leadActor: "",
-          supportingActor: "",
-          country: "",
-          genre: [],
-          description: "",
-          releasedYear: 0,
-          duration: 0,
-          image: null,
+          name: movieDetail?.name || "",
+          leadActor: movieDetail?.leadActor || "",
+          supportingActor: movieDetail?.supportingActor || "",
+          country: movieDetail?.country || "",
+          genre: movieDetail?.genre || [],
+          description: movieDetail?.description || "",
+          releasedYear: movieDetail?.releasedYear || 0,
+          duration: movieDetail?.duration || "",
+          image: movieDetail?.image || null,
         }}
         validationSchema={addMovieValidationSchema}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={async (values) => {
+          let imageUrl = null;
+          if (productImage) {
+            // cloudinary keys
+            const cloudName = "dkm9ich8t";
+            const uploadPreset = "digital-cinema";
+
+            const data = new FormData();
+
+            data.append("file", productImage);
+            data.append("upload_preset", uploadPreset);
+            data.append("cloud_name", cloudName);
+
+            try {
+              setImageUploadLoading(true);
+              const response = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                data
+              );
+              imageUrl = response?.data?.secure_url;
+              setImageUploadLoading(false);
+            } catch (error) {
+              setImageUploadLoading(false);
+              console.log(error.message);
+            }
+          }
+          values.image = imageUrl;
+          mutate(values);
         }}
       >
         {(formik) => (
@@ -57,22 +133,47 @@ const EditMovie = () => {
               alignItems: "center",
               padding: "1rem",
               gap: "1rem",
-              width: "450px",
+              width: "400px",
               boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
             }}
           >
             <Typography variant="h5">Edit Movie</Typography>
 
-            <FormControl fullWidth required>
-              <TextField label="Movie name" {...formik.getFieldProps("name")} />
+            <Stack sx={{ height: "200px" }}>
+              <img
+                src={localUrl || movieDetail?.image || fallbackImage}
+                alt="image"
+                height="100%"
+              />
+            </Stack>
+
+            <FormControl>
+              <input
+                type="file"
+                onChange={(event) => {
+                  // console.log(event.target.files);
+                  const file = event.target.files[0];
+                  setProductImage(file);
+                  setLocalUrl(URL.createObjectURL(file));
+                }}
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <TextField
+                required
+                label="Movie name"
+                {...formik.getFieldProps("name")}
+              />
 
               {formik.touched.name && formik.errors.name ? (
                 <FormHelperText error>{formik.errors.name}</FormHelperText>
               ) : null}
             </FormControl>
 
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <TextField
+                required
                 label="Lead Actor"
                 {...formik.getFieldProps("leadActor")}
               />
@@ -82,8 +183,9 @@ const EditMovie = () => {
               ) : null}
             </FormControl>
 
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <TextField
+                required
                 label="Supporting Actor"
                 {...formik.getFieldProps("supportingActor")}
               />
@@ -115,31 +217,32 @@ const EditMovie = () => {
               <InputLabel>Genre</InputLabel>
               <Select
                 multiple
-                value={formik.values.genre} // Use Formik value
-                onChange={formik.handleChange("genre")} // Use Formik handler
+                value={formik.values.genre}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  formik.setFieldValue("genre", value);
+                }}
                 renderValue={(selected) => selected.join(", ")}
                 onBlur={formik.handleBlur("genre")}
-                label="Genre"
-                {...formik.getFieldProps("genre")}
+                input={<OutlinedInput label="Genre" />}
               >
-                {movieGenreList.map((item, index) => {
-                  return (
-                    <MenuItem key={index} value={item}>
-                      {/* {item} */}
-                      <CheckBox checked={movieGenre.indexOf(item) > -1} />
-                      <ListItemText primary={item} />
-                    </MenuItem>
-                  );
-                })}
+                {movieGenreList.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    <Checkbox
+                      checked={formik.values.genre.indexOf(item) > -1}
+                    />
+                    <ListItemText primary={item} />
+                  </MenuItem>
+                ))}
               </Select>
-
               {formik.touched.genre && formik.errors.genre ? (
                 <FormHelperText error>{formik.errors.genre}</FormHelperText>
               ) : null}
             </FormControl>
 
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <TextField
+                required
                 label="Released year"
                 {...formik.getFieldProps("releasedYear")}
               />
@@ -148,10 +251,12 @@ const EditMovie = () => {
                   {formik.errors.supportingActor}
                 </FormHelperText>
               ) : null}
+              {/* {console.log(formik.values)} */}
             </FormControl>
 
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <TextField
+                required
                 label="Duration"
                 {...formik.getFieldProps("duration")}
               />
@@ -164,7 +269,7 @@ const EditMovie = () => {
               <TextField
                 required
                 multiline
-                rows={4}
+                rows={8}
                 label="Description"
                 {...formik.getFieldProps("description")}
               />

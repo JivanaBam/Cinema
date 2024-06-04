@@ -6,12 +6,10 @@ const Footer = () => {
     <Box
       sx={{
         background: "#074173",
-        height: "40px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "95vw",
-        marginTop: "2rem",
+        height: "50px",
       }}
     >
       <Typography variant="h6" sx={{ color: "#fff" }}>

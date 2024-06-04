@@ -25,7 +25,11 @@ const addMovieValidationSchema = yup.object({
     .required("Country is required.")
     .trim()
     .oneOf(movieCountryList),
-  genre: yup.array().required("Genre is required.").oneOf(movieGenreList),
+  genre: yup
+    .array()
+    .of(yup.string().oneOf(movieGenreList))
+    .required("Genre is required.")
+    .min(1, "Must contain at least one genre."),
   description: yup
     .string()
     .trim()
@@ -34,10 +38,10 @@ const addMovieValidationSchema = yup.object({
     .max(1000, "Description must be at max 1000 characters."),
   releasedYear: yup.date().required("Released year is required."),
   duration: yup
-    .number()
+    .string()
     .required("Duration is required.")
-    .min(1, "Duration must be at least 1 minute.")
-    .integer("Duration must be an integer."),
+    .min(1, "Duration must be at least 1 minute."),
+  // .integer("Duration must be an integer."),
 
   image: yup.string().nullable(),
 });

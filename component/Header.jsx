@@ -1,5 +1,6 @@
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Badge, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -15,10 +16,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from "@mui/icons-material/Logout";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { useQuery } from "@tanstack/react-query";
-import $axios from "../axios/axios.instance";
 
 const drawerWidth = 240;
 const navItems = [
@@ -51,22 +48,9 @@ const Header = (props) => {
   // get user role
   const userRole = localStorage.getItem("role");
 
-  // // get cart item count
-  // const { isPending, data } = useQuery({
-  //   queryKey: ["get-cart-item-count"],
-  //   queryFn: async () => {
-  //     return await $axios.get("/cart/item/count");
-  //   },
-  //   enabled: userRole === "buyer",
-  // });
-
-  // const cartItemCount = data?.data?.cartItemCount;
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Digital-Cinema
-      </Typography>
+      <Typography variant="h6">Digital-Cinema</Typography>
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -89,7 +73,7 @@ const Header = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", mb: "4rem" }}>
+    <Box sx={{ display: "flex", mb: "2rem" }}>
       <CssBaseline />
       <AppBar component="nav" sx={{ background: "#074173" }}>
         <Toolbar>
@@ -105,7 +89,11 @@ const Header = (props) => {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              marginRight: "50rem",
+            }}
           >
             Digital-Cinema
           </Typography>
@@ -121,19 +109,6 @@ const Header = (props) => {
                 {item.name}
               </Button>
             ))}
-
-            {userRole === "buyer" && (
-              <IconButton
-                sx={{ color: "#fff" }}
-                //   onClick={() => {
-                //     navigate("/cart");
-                //   }}
-              >
-                <Badge badgeContent={cartItemCount} color="success">
-                  <ShoppingCartOutlinedIcon />
-                </Badge>
-              </IconButton>
-            )}
           </Box>
           <Typography
             sx={{

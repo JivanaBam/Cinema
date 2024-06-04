@@ -10,11 +10,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../axios/axios.instance";
 import { CircularProgress } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { openSuccessSnackbar } from "../src/store/slices/snackbarSlice";
 
 const DeleteMovieDialog = () => {
+  const dispatch = useDispatch();
   const params = useParams();
   // console.log(params);
-
   const movieId = params?.id;
   // console.log(movieId);
 
@@ -37,8 +39,12 @@ const DeleteMovieDialog = () => {
       return await $axios.delete(`/delete/movie/${movieId}`);
     },
 
-    onSuccess: () => {
+    onSuccess: (res) => {
       navigate("/movie");
+      dispatch(openSuccessSnackbar(res?.data?.message));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
 

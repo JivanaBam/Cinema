@@ -13,8 +13,14 @@ import { loginValidationSchema } from "../validationSchema/login.validation.sche
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../axios/axios.instance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../src/store/slices/snackbarSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { isPending, mutate } = useMutation({
@@ -24,8 +30,8 @@ const Login = () => {
       return await $axios.post("/user/login", values);
     },
     onSuccess: (res) => {
-      console.log(res.data);
-      navigate("/movie");
+      navigate("/home");
+      dispatch(openSuccessSnackbar(res?.data?.message));
 
       // extract token, role, firstName from login response
       const accessToken = res?.data?.Token;
@@ -39,7 +45,7 @@ const Login = () => {
     },
 
     onError: (error) => {
-      console.log(error.response.data.message);
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
   return (
@@ -68,7 +74,7 @@ const Login = () => {
                   justifyContent: "space-around",
                   padding: "1rem",
                   gap: "1rem",
-                  width: "400px",
+                  width: "350px",
                 }}
               >
                 <Typography variant="h4">Sign in</Typography>
