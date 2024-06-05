@@ -32,6 +32,7 @@ import {
   openSuccessSnackbar,
 } from "../src/store/slices/snackbarSlice";
 import axios from "axios";
+import { DatePickerForm } from "./DatePickerForm";
 
 const AddMovie = () => {
   const [productImage, setProductImage] = useState(null);
@@ -73,7 +74,7 @@ const AddMovie = () => {
             country: "",
             genre: [],
             description: "",
-            releasedYear: 0,
+            releasedYear: [],
             duration: 1,
             image: null,
           }}
@@ -231,7 +232,7 @@ const AddMovie = () => {
                 />
                 {formik.touched.releasedYear && formik.errors.releasedYear ? (
                   <FormHelperText error>
-                    {formik.errors.supportingActor}
+                    {formik.errors.releasedYear}
                   </FormHelperText>
                 ) : null}
               </FormControl>

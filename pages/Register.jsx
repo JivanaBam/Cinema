@@ -22,7 +22,10 @@ import { registerValidationSchema } from "../validationSchema/register.validatio
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../axios/axios.instance";
 import { useDispatch } from "react-redux";
-import { openSuccessSnackbar } from "../src/store/slices/snackbarSlice";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../src/store/slices/snackbarSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -154,20 +157,6 @@ const Register = () => {
                     <FormHelperText error>{formik.errors.role}</FormHelperText>
                   ) : null}
                 </FormControl>
-
-                {/* <FormControl fullWidth required>
-                  <InputLabel>Gender</InputLabel>
-                  <Select {...formik.getFieldProps("gender")} label="Gender">
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="preferNotToSay">Other</MenuItem>/
-                  </Select>
-                  {formik.touched.gender && formik.errors.gender ? (
-                    <FormHelperText error>
-                      {formik.errors.gender}
-                    </FormHelperText>
-                  ) : null}
-                </FormControl> */}
 
                 <Button
                   variant="contained"

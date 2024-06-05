@@ -16,6 +16,7 @@ import {
   movieCountryList,
   movieGenreList,
 } from "../constants/general.constants";
+import { Link } from "react-router-dom";
 
 const MovieFilterDialog = () => {
   const [open, setOpen] = React.useState(false);
@@ -93,6 +94,7 @@ const MovieFilterDialog = () => {
                     Submit
                   </Button>
                 </Stack>
+                <Link to="/home" />
               </form>;
             }}
           </Formik>
