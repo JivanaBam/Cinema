@@ -12,7 +12,7 @@ const ViewerMovieList = () => {
     queryFn: async () => {
       return await $axios.post("/movie/list/viewer", {
         page: currentPage,
-        limit: 3,
+        limit: 6,
       });
     },
   });

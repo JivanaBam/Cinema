@@ -6,7 +6,6 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
-  LinearProgress,
   ListItemText,
   MenuItem,
   OutlinedInput,
@@ -15,24 +14,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { Formik } from "formik";
 import React, { useState } from "react";
-import addMovieValidationSchema from "../validationSchema/add.movie.validation.schema";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import $axios from "../axios/axios.instance";
 import {
   movieCountryList,
   movieGenreList,
 } from "../constants/general.constants";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import $axios from "../axios/axios.instance";
-import { CheckBox } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
 import {
   openErrorSnackbar,
   openSuccessSnackbar,
 } from "../src/store/slices/snackbarSlice";
-import axios from "axios";
-import { DatePickerForm } from "./DatePickerForm";
+import addMovieValidationSchema from "../validationSchema/add.movie.validation.schema";
 
 const AddMovie = () => {
   const [productImage, setProductImage] = useState(null);
@@ -71,11 +68,12 @@ const AddMovie = () => {
             name: "",
             leadActor: "",
             supportingActor: "",
+            director: "",
             country: "",
             genre: [],
             description: "",
-            releasedYear: [],
-            duration: 1,
+            releasedYear: "",
+            duration: "",
             image: null,
           }}
           validationSchema={addMovieValidationSchema}
@@ -155,6 +153,7 @@ const AddMovie = () => {
                   <FormHelperText error>{formik.errors.name}</FormHelperText>
                 ) : null}
               </FormControl>
+
               <FormControl fullWidth>
                 <TextField
                   required
@@ -168,6 +167,7 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
+
               <FormControl fullWidth>
                 <TextField
                   required
@@ -181,6 +181,19 @@ const AddMovie = () => {
                   </FormHelperText>
                 ) : null}
               </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  label="Director"
+                  {...formik.getFieldProps("director")}
+                />
+                {formik.touched.director && formik.errors.director ? (
+                  <FormHelperText error>
+                    {formik.errors.director}
+                  </FormHelperText>
+                ) : null}
+              </FormControl>
+
               <FormControl fullWidth required>
                 <InputLabel>Country</InputLabel>
                 <Select label="Country" {...formik.getFieldProps("country")}>
@@ -240,7 +253,7 @@ const AddMovie = () => {
               <FormControl fullWidth>
                 <TextField
                   required
-                  label="Duration"
+                  label="Duration(sec)"
                   {...formik.getFieldProps("duration")}
                 />
                 {formik.touched.duration && formik.errors.duration ? (

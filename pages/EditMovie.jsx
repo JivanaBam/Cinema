@@ -65,7 +65,7 @@ const EditMovie = () => {
     },
     onSuccess: (res) => {
       navigate(`/movie-details/${movieId}`);
-      dispatch(openSuccessSnackbar(openSuccessSnackbar(res?.data?.message)));
+      dispatch(openSuccessSnackbar(res?.data?.message));
     },
     onError: (error) => {
       dispatch(openErrorSnackbar(error?.response?.data?.message));
@@ -85,11 +85,12 @@ const EditMovie = () => {
           name: movieDetail?.name || "",
           leadActor: movieDetail?.leadActor || "",
           supportingActor: movieDetail?.supportingActor || "",
+          director: movieDetail?.director || "",
           country: movieDetail?.country || "",
           genre: movieDetail?.genre || [],
           description: movieDetail?.description || "",
-          releasedYear: movieDetail?.releasedYear || 0,
-          duration: movieDetail?.duration || "",
+          releasedYear: movieDetail?.releasedYear || 1,
+          duration: movieDetail?.duration || 1,
           image: movieDetail?.image || null,
         }}
         validationSchema={addMovieValidationSchema}
@@ -114,12 +115,12 @@ const EditMovie = () => {
               );
               imageUrl = response?.data?.secure_url;
               setImageUploadLoading(false);
+              values.image = imageUrl;
             } catch (error) {
               setImageUploadLoading(false);
               console.log(error.message);
             }
           }
-          values.image = imageUrl;
           mutate(values);
         }}
       >
@@ -197,6 +198,16 @@ const EditMovie = () => {
               ) : null}
             </FormControl>
 
+            <FormControl fullWidth>
+              <TextField
+                label="Director"
+                {...formik.getFieldProps("director")}
+              />
+              {formik.touched.director && formik.errors.director ? (
+                <FormHelperText error>{formik.errors.director}</FormHelperText>
+              ) : null}
+            </FormControl>
+
             <FormControl fullWidth required>
               <InputLabel>Country</InputLabel>
               <Select label="Country" {...formik.getFieldProps("country")}>
@@ -257,7 +268,7 @@ const EditMovie = () => {
             <FormControl fullWidth>
               <TextField
                 required
-                label="Duration"
+                label="Duration(sec)"
                 {...formik.getFieldProps("duration")}
               />
               {formik.touched.duration && formik.errors.duration ? (

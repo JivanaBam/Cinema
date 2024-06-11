@@ -67,7 +67,6 @@ const Register = () => {
             password: "",
             // confirmPassword: "",
             role: "",
-            // gender: "",
           }}
           validationSchema={registerValidationSchema}
           onSubmit={(values) => {
@@ -151,7 +150,6 @@ const Register = () => {
                   <Select label="Role" {...formik.getFieldProps("role")}>
                     <MenuItem value="admin">Admin</MenuItem>
                     <MenuItem value="viewer">Viewer</MenuItem>
-                    <MenuItem value="user">User</MenuItem>
                   </Select>
                   {formik.touched.role && formik.errors.role ? (
                     <FormHelperText error>{formik.errors.role}</FormHelperText>

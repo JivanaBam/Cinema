@@ -34,7 +34,7 @@ const MovieDetails = () => {
 
   // console.log(data);
   const movieDetail = data?.data?.movieDetails;
-  // console.log(movieDetail);
+  console.log(movieDetail);
 
   if (isPending) {
     return <CircularProgress />;
@@ -44,10 +44,11 @@ const MovieDetails = () => {
     <Box
       sx={{
         display: "flex",
-        // gap: "1rem",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-        // padding: "1rem",
         minHeight: "500px",
+        padding: "2rem",
+        gap: "2rem",
+        width: "100%",
       }}
     >
       <Box
@@ -61,7 +62,7 @@ const MovieDetails = () => {
         <img
           src={movieDetail?.image || fallbackImage}
           alt=""
-          style={{ width: "90%" }}
+          style={{ width: "100%", height: "100%" }}
         />
       </Box>
       <Box
@@ -70,19 +71,16 @@ const MovieDetails = () => {
           flexDirection: "column",
           justifyContent: "space-around",
           alignItems: "flex-start",
-          width: "500px",
-          // padding: "1rem",
+          minWidth: "40%",
+          gap: "1rem",
         }}
       >
         <Typography variant="h5" fontWeight="bold">
           {movieDetail.name}
         </Typography>
-        <Typography sx={{ fontSize: "18px", color: "purple" }}>
-          Duration: {movieDetail.duration}
-        </Typography>
-        <Typography sx={{ fontSize: "18px", color: "purple" }}>
-          Released Year: {movieDetail.releasedYear}
-        </Typography>
+        <Typography>Duration:- {movieDetail.duration || "N/A"}</Typography>
+
+        <Typography>Released Year:- {movieDetail.releasedYear} A.D</Typography>
 
         <Stack sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
           <Typography>Actors:</Typography>
@@ -91,6 +89,7 @@ const MovieDetails = () => {
             color="primary"
             label={movieDetail.leadActor}
           />
+
           <Chip
             variant="outlined"
             color="primary"
@@ -98,7 +97,7 @@ const MovieDetails = () => {
           />
         </Stack>
 
-        <Stack direction="row">
+        <Stack direction="row" sx={{ gap: "1rem" }}>
           <Typography>Country: </Typography>
           <Chip
             variant="outlined"
@@ -106,7 +105,7 @@ const MovieDetails = () => {
             label={movieDetail.country}
           />
         </Stack>
-        <Stack sx={{ display: "flex", flexDirection: "row" }}>
+        <Stack sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
           <Typography>Genre: </Typography>
 
           <Box sx={{ display: "flex", flexWrap: "wrap" }}>
@@ -120,6 +119,15 @@ const MovieDetails = () => {
               />
             ))}
           </Box>
+        </Stack>
+
+        <Stack direction="row" sx={{ gap: "1rem" }}>
+          <Typography> Director: </Typography>
+          <Chip
+            variant="outlined"
+            color="primary"
+            label={movieDetail.director}
+          />
         </Stack>
 
         <Stack sx={{ textAlign: "justify", marginRight: "1rem" }}>

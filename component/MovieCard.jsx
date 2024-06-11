@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Box, Chip, Stack } from "@mui/material";
 import { fallbackImage } from "../constants/general.constants";
-import MovieDetails from "../pages/MovieDetails";
 
 const MovieCard = (props) => {
   // console.log(props);
@@ -50,15 +49,17 @@ const MovieCard = (props) => {
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {props.genre &&
                 Array.isArray(props.genre) &&
-                props.genre.map((genre, index) => (
-                  <Chip
-                    key={index}
-                    variant="outlined"
-                    color="primary"
-                    label={genre}
-                    style={{ marginRight: "5px", marginBottom: "5px" }}
-                  />
-                ))}
+                props.genre
+                  .slice(0, 3) // to show limited genres in movie card
+                  .map((genre, index) => (
+                    <Chip
+                      key={index}
+                      variant="outlined"
+                      color="primary"
+                      label={genre}
+                      style={{ marginRight: "5px", marginBottom: "5px" }}
+                    />
+                  ))}
             </Box>
           </Stack>
         </Stack>

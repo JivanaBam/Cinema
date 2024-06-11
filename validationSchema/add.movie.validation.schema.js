@@ -35,15 +35,18 @@ const addMovieValidationSchema = yup.object({
     .trim()
     .required("Description is required.")
     .min(100, "Description must be at least 100 characters.")
-    .max(1000, "Description must be at max 1000 characters."),
-  releasedYear: yup.date().required("Released year is required."),
+    .max(2000, "Description must be at max 2000 characters."),
+  releasedYear: yup.number().required("Released year is required.").min(1900),
   duration: yup
-    .string()
+    .number()
     .required("Duration is required.")
-    .min(1, "Duration must be at least 1 minute."),
-  // .integer("Duration must be an integer."),
+    .min(1, "Duration must be at least 1 sec."),
 
   image: yup.string().nullable(),
+  director: yup
+    .string()
+    .trim()
+    .max(60, "Director name must be at max 60 characters."),
 });
 
 export default addMovieValidationSchema;
