@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios instance
 const $axios = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://cinema-two-mu.vercel.app",
   timeout: 5000,
 });
 
