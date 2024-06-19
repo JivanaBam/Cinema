@@ -15,21 +15,21 @@ const Home = () => {
   const [searchText, setSearchText] = useState(" ");
 
   const images = [
-    { src: "src/assets/A-quiet-place.jpg", alt: "A-quiet-place" },
-    { src: "src/assets/avatar.jpg", alt: "avatar" },
-    { src: "src/assets/interstellar.jpg", alt: "interstellar" },
+    { src: "/assets/A-quiet-place.jpg", alt: "A-quiet-place" },
+    { src: "/assets/avatar.jpg", alt: "avatar" },
+    { src: "/assets/interstellar.jpg", alt: "interstellar" },
     {
-      src: "src/assets/Laapataa_Ladies_poster.jpg",
+      src: "/assets/Laapataa_Ladies_poster.jpg",
       alt: "Laapataa_Ladies_poster",
     },
-    { src: "src/assets/migration.jpg", alt: "migration" },
-    { src: "src/assets/moana.jpg", alt: "moana" },
-    { src: "src/assets/orphan.jpg", alt: "orphan" },
-    { src: "src/assets/shutter-island.jpg", alt: "shutter-island" },
-    { src: "src/assets/the-endgame.jpg", alt: "the-endgame" },
-    { src: "src/assets/Boksiko_ghar.jpg", alt: "Boksiko_ghar" },
-    { src: "src/assets/the lion king.jpg", alt: "the lion king" },
-    { src: "src/assets/five feet apart.jpg", alt: "five feet apart" },
+    { src: "/assets/migration.jpg", alt: "migration" },
+    { src: "/assets/moana.jpg", alt: "moana" },
+    { src: "/assets/orphan.jpg", alt: "orphan" },
+    { src: "/assets/shutter-island.jpg", alt: "shutter-island" },
+    { src: "/assets/the-endgame.jpg", alt: "the-endgame" },
+    { src: "/assets/Boksiko_ghar.jpg", alt: "Boksiko_ghar" },
+    { src: "/assets/the lion king.jpg", alt: "the lion king" },
+    { src: "/assets/five feet apart.jpg", alt: "five feet apart" },
   ];
   // console.log(images);
 
@@ -39,7 +39,7 @@ const Home = () => {
         width: "1330px",
         height: "100%",
         backgroundSize: "cover",
-        backgroundImage: `url("src/assets/Movie-background.jpg")`,
+        backgroundImage: `url("/assets/Movie-background.jpg")`,
       }}
     >
       {/* <Stack direction="row" sx={{ margin: "0.5rem 0rem 1rem 64rem" }}>

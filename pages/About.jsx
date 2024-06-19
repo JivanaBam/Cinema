@@ -8,7 +8,7 @@ const About = () => {
         width: "1330px",
         height: "100%",
         backgroundSize: "cover",
-        backgroundImage: `url("src/assets/Movie-background.jpg")`,
+        backgroundImage: `url("/assets/Movie-background.jpg")`,
       }}
     >
       <Box sx={{ display: "flex", padding: "2rem" }}>
