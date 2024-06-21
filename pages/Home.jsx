@@ -42,23 +42,6 @@ const Home = () => {
         backgroundImage: `url("/assets/Movie-background.jpg")`,
       }}
     >
-      {/* <Stack direction="row" sx={{ margin: "0.5rem 0rem 1rem 64rem" }}>
-        <FormControl variant="standard">
-          <MovieFilterDialog />
-          <OutlinedInput
-            // value={searchText}
-            onChange={(event) => {
-              setSearchText(event?.target?.value);
-            }}
-            placeholder="Search movies here..."
-            startAdornment={
-              <InputAdornment position="end" sx={{ color: "purple" }}>
-                <SearchIcon sx={{ fontSize: "2rem" }} />
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-      </Stack> */}
 
       <Typography variant="h3">Your streaming guide for movies.</Typography>
       <Typography variant="h5" color="#ffff">
