@@ -14,7 +14,7 @@ const About = () => {
       <Box sx={{ display: "flex", padding: "2rem" }}>
         <Stack sx={{ width: "50%" }}>
           <img
-            src="src/assets/marvel.jpg"
+            src="/assets/marvel.jpg"
             alt="Nep mart image"
             width="95%"
             height="100%"

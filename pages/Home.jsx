@@ -42,7 +42,6 @@ const Home = () => {
         backgroundImage: `url("/assets/Movie-background.jpg")`,
       }}
     >
-
       <Typography variant="h3">Your streaming guide for movies.</Typography>
       <Typography variant="h5" color="#ffff">
         Find where to stream new, popular & upcoming entertainment with
